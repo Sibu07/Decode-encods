@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/css/bootstrap.min.css">
+    <style>
+        .copy-button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function copyText() {
+            var copyText = document.getElementById("result-text");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            document.execCommand("copy");
+            alert("Copied to clipboard!");
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Result</h1>
+        {% if binary_code %}
+            <p>Encoded binary code:</p>
+            <textarea id="result-text" class="form-control" readonly>{{ binary_code }}</textarea>
+        {% elif decoded_message %}
+            <p>Decoded message:</p>
+            <textarea id="result-text" class="form-control" readonly>{{ decoded_message }}</textarea>
+        {% endif %}
+        <button class="copy-button btn btn-primary" onclick="copyText()">Copy</button>
+        <br>
+        <a href="/" class="btn btn-secondary mt-2">Go back</a>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
