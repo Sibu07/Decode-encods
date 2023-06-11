@@ -32,5 +32,5 @@ def decode():
     return render_template("result.html", decoded_message=decoded)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
     
