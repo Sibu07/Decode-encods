@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -15,22 +15,37 @@ def decode_binary(binary_code):
         decoded_message += chr(int(binary_char, 2))
     return decoded_message
 
-@app.route("/")
-def home():
-    return render_template("index.html")
-
-@app.route("/encode", methods=["POST"])
+@app.route('/encode', methods=['POST'])
 def encode():
-    message = request.form.get("message")
+    data = request.get_json()
+    message = data['message']
     encoded = encode_to_binary(message)
-    return render_template("result.html", binary_code=encoded)
+    return jsonify({'encoded': encoded})
 
-@app.route("/decode", methods=["POST"])
+@app.route('/decode', methods=['POST'])
 def decode():
-    binary_code = request.form.get("binary_code")
+    data = request.get_json()
+    binary_code = data['binary_code']
     decoded = decode_binary(binary_code)
-    return render_template("result.html", decoded_message=decoded)
+    return jsonify({'decoded': decoded})
 
-if __name__ == "__main__":
-    app.run(debug=True)
-    
+@app.route('/menu', methods=['POST'])
+def menu():
+    data = request.get_json()
+    choice = data['choice']
+
+    if choice == "1":
+        message = data['message']
+        encoded = encode_to_binary(message)
+        return jsonify({'encoded': encoded})
+    elif choice == "2":
+        binary_code = data['binary_code']
+        decoded = decode_binary(binary_code)
+        return jsonify({'decoded': decoded})
+    elif choice == "3":
+        return jsonify({'message': 'Exiting the program...'})
+    else:
+        return jsonify({'message': 'Invalid choice. Please try again.'})
+
+if __name__ == '__main__':
+    app.run()
