@@ -48,4 +48,4 @@ def menu():
         return jsonify({'message': 'Invalid choice. Please try again.'})
 
 if __name__ == '__main__':
-    app.run(port=int(os.environ.get('PORT', 5000)))
+    app.run()
